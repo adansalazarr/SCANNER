@@ -1,0 +1,58 @@
+
+program Ejemplo3;
+
+(* Var declaration section*) 
+var
+    a, b : integer;
+    x, y : real;
+    n : array [1-10] of integer;
+    s: string;
+
+
+function calc (w, z : real) : integer;
+ begin
+    if (w >= z) then 
+        calc := 5
+    else
+        calc := 0;
+end;
+
+
+procedure arrayInit (w: integer; z: real);
+ begin
+    for i := 1 to 10 do     
+        begin
+            n[i] := 1 * 5;
+            writeLn( 'n[', i, '] =', n[i]); end;
+        end;
+
+procedure assign (w, z : real);
+ var
+    temp: real;
+ begin
+temp := w; 
+repeat
+    temp := temp –z; 
+until (temp <=0);
+if (temp = 0) then
+    begin
+        a := 10.1;
+        b := 20;
+    end
+else 
+ begin
+    a := 0;
+    b := 0; end;
+end;
+
+begin
+s := 'The end'; 
+writeLn(' x='); 
+readLn(x);
+writeLn(' y=‘); 
+readLn(y);
+if (calc(x,y) = 5) then
+    assign(x,y) 
+    else
+        writeLn(s); 
+end.

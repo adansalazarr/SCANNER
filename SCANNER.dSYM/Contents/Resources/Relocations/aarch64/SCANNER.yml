@@ -1,0 +1,29 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/sebas/Library/CloudStorage/GoogleDrive-adans@800salazar.com/My Drive/Macbook Drive/Developer/Design-Compilers/SCANNER/SCANNER'
+relocations:
+  - { offsetInCU: 0x26, offset: 0x26, size: 0x8, addend: 0x0, symName: _analizaNumero, symObjAddr: 0x0, symBinAddr: 0x10000289C, symSize: 0x318 }
+  - { offsetInCU: 0x3F, offset: 0x3F, size: 0x8, addend: 0x0, symName: _idsIndex, symObjAddr: 0x3B60, symBinAddr: 0x100008100, symSize: 0x0 }
+  - { offsetInCU: 0x5B, offset: 0x5B, size: 0x8, addend: 0x0, symName: _numsIndex, symObjAddr: 0x3B64, symBinAddr: 0x100008104, symSize: 0x0 }
+  - { offsetInCU: 0x70, offset: 0x70, size: 0x8, addend: 0x0, symName: _cadenaIndex, symObjAddr: 0x3B68, symBinAddr: 0x100008108, symSize: 0x0 }
+  - { offsetInCU: 0x85, offset: 0x85, size: 0x8, addend: 0x0, symName: _bolMultilinea, symObjAddr: 0x3B6C, symBinAddr: 0x10000810C, symSize: 0x0 }
+  - { offsetInCU: 0x9A, offset: 0x9A, size: 0x8, addend: 0x0, symName: _specSymbols, symObjAddr: 0x13D0, symBinAddr: 0x100003D08, symSize: 0x0 }
+  - { offsetInCU: 0xDA, offset: 0xDA, size: 0x8, addend: 0x0, symName: _palarbasClave, symObjAddr: 0x1660, symBinAddr: 0x100008000, symSize: 0x0 }
+  - { offsetInCU: 0x100, offset: 0x100, size: 0x8, addend: 0x0, symName: _palabrasTokens, symObjAddr: 0x1708, symBinAddr: 0x1000080A8, symSize: 0x0 }
+  - { offsetInCU: 0x121, offset: 0x121, size: 0x8, addend: 0x0, symName: _indexClave, symObjAddr: 0x175C, symBinAddr: 0x1000080FC, symSize: 0x0 }
+  - { offsetInCU: 0x142, offset: 0x142, size: 0x8, addend: 0x0, symName: _Numbers, symBinAddr: 0x1000093D0, symSize: 0x0 }
+  - { offsetInCU: 0x16A, offset: 0x16A, size: 0x8, addend: 0x0, symName: _IDs, symBinAddr: 0x100008A70, symSize: 0x0 }
+  - { offsetInCU: 0x1B3, offset: 0x1B3, size: 0x8, addend: 0x0, symName: _Cadena, symBinAddr: 0x100008110, symSize: 0x0 }
+  - { offsetInCU: 0x1BD, offset: 0x1BD, size: 0x8, addend: 0x0, symName: _analizaNumero, symObjAddr: 0x0, symBinAddr: 0x10000289C, symSize: 0x318 }
+  - { offsetInCU: 0x235, offset: 0x235, size: 0x8, addend: 0x0, symName: _analizaIDC, symObjAddr: 0x318, symBinAddr: 0x100002BB4, symSize: 0x270 }
+  - { offsetInCU: 0x2AD, offset: 0x2AD, size: 0x8, addend: 0x0, symName: _comentarioLinea, symObjAddr: 0x588, symBinAddr: 0x100002E24, symSize: 0x158 }
+  - { offsetInCU: 0x2FB, offset: 0x2FB, size: 0x8, addend: 0x0, symName: _comentarioMultilinea, symObjAddr: 0x6E0, symBinAddr: 0x100002F7C, symSize: 0x154 }
+  - { offsetInCU: 0x349, offset: 0x349, size: 0x8, addend: 0x0, symName: _analizaCadena, symObjAddr: 0x834, symBinAddr: 0x1000030D0, symSize: 0x1C8 }
+  - { offsetInCU: 0x3A5, offset: 0x3A5, size: 0x8, addend: 0x0, symName: _analizaSimbolos, symObjAddr: 0x9FC, symBinAddr: 0x100003298, symSize: 0x2D4 }
+  - { offsetInCU: 0x401, offset: 0x401, size: 0x8, addend: 0x0, symName: _simbolosIgnorar, symObjAddr: 0xDAC, symBinAddr: 0x100003648, symSize: 0xB4 }
+  - { offsetInCU: 0x463, offset: 0x463, size: 0x8, addend: 0x0, symName: _scanner, symObjAddr: 0xE60, symBinAddr: 0x1000036FC, symSize: 0x2AC }
+  - { offsetInCU: 0x4C4, offset: 0x4C4, size: 0x8, addend: 0x0, symName: _tablaIDs, symObjAddr: 0x110C, symBinAddr: 0x1000039A8, symSize: 0xA0 }
+  - { offsetInCU: 0x4F8, offset: 0x4F8, size: 0x8, addend: 0x0, symName: _tablaINums, symObjAddr: 0x11AC, symBinAddr: 0x100003A48, symSize: 0x90 }
+  - { offsetInCU: 0x52C, offset: 0x52C, size: 0x8, addend: 0x0, symName: _tablaCadenas, symObjAddr: 0x123C, symBinAddr: 0x100003AD8, symSize: 0xA0 }
+  - { offsetInCU: 0x560, offset: 0x560, size: 0x8, addend: 0x0, symName: _main, symObjAddr: 0x12DC, symBinAddr: 0x100003B78, symSize: 0xF4 }
+...

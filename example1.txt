@@ -1,0 +1,13 @@
+
+program HelloWorld;
+{ Example #1 }
+{ This is the typical "Hello World" }
+
+
+(* This is the main program block *) 
+    begin
+writeLn( ' Hello World ' ); 
+end. (* This is the end 
+of the main program 
+
+block *)s

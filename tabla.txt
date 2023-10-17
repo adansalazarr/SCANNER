@@ -1,0 +1,50 @@
+
+Tabla de Simbolos		
+1	+
+2	- 	 
+3	* 	 
+4	/ 	 
+5	< 	 
+6	<= 	 
+7	> 	 
+8	>= 	 
+9	=	
+10	<> 	 
+11	:= 	 
+12	; 	 
+13	, 	 
+14	'	 N/A
+15	. 	 N/A
+16	( 	 
+17	) 	 
+18	[ 	 
+19	] 	 
+20	{ 	 N/A
+21	} 	 N/A
+22	(* 	 N/A
+23	*) 	 N/A
+24	program	
+25	 real	
+26	 repeat
+27	 procedure
+28	 string
+29	 until
+30	 function
+31	 array
+32	 for
+33	 begin
+34	 of	
+35	 to	
+36	 if	
+37	 do	
+38	 end	
+39	 var	
+40	 then	
+41	 readLn
+42	 integer	
+43	 else	
+44	 writeLn
+45	ID
+46	Entero
+47	Real
+48	Cadena

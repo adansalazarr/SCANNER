@@ -1,0 +1,18 @@
+program Ejemplo2;
+var
+a: integer;
+ b: real;
+(* This is a procedure block*)
+procedure assign (x: integer; y: real);
+ begin
+a := 3;
+b := y;
+ end;
+(* This is the main program block *) 
+    begin
+assign(27., 3.1416); 
+    writeLn(' a=',a);
+    writeLn(' b=',b);
+end. (* This is the end of the main 
+    
+    program block *)
