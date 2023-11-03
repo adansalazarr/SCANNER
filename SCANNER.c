@@ -20,20 +20,25 @@ Symbol Cadena[MAX_ENTRIES]; //Array para cadenas
 int idsIndex = 0;
 int numsIndex = 0;
 int cadenaIndex = 0;
-int bolMultilinea = 0; //boleano para multilinea
+int bolMultilinea = 0;
+int bolID = 0; //boleano para multilinea
 
 //Simbolos especiales
-const char specSymbols[] = "+-*/<>=;:,()[]\'";
+const char specSymbols[] = "+-*/<>=;:,()[].";
 
 //Palabras reservadas n indices
 char *palarbasClave[] = {"program", "real", "repeat", "procedure", "string", "until",
                          "function", "array", "for", "begin", "of", "to", "if", "do",
                          "end", "var", "then", "readLn", "integer", "else", "writeLn"};
-int palabrasTokens[] = {24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 
-                             37, 38, 39, 40, 41, 42, 43, 44};
+int palabrasTokens[] = {24, 25, 26, 27, 28, 29,
+                        30, 31, 32, 33, 34, 35, 36, 37,
+                        38, 39, 40, 41, 42, 43, 44};
 int indexClave = 21;
 
-void analizaNumero(char *text, int *index, int lon) {
+// Simbolos de -Σ
+const char ignorarSimbolos[] = "$@#&";
+
+void analizaNumero(char *text, int *index, int lon) { 
     char temp[MAX_TOKEN_LENGTH]; //Almacena en lo que reconoce
     int acum = 0, state = 1;
     char c = text[*index];
@@ -85,11 +90,23 @@ void analizaIDC(char *text, int *index, int lon) {
     char compara[MAX_TOKEN_LENGTH]; //Almacena para comparar
     int c = 0;
 
+    //Valida estructura ID
+    if(isalpha(text[*index])|| (text[*index]== '_' && *index + 1 < lon && isalnum(text[*index +1]))) {
+        bolID = 1; 
+        compara[c++] = text[*index];
+        (*index)++;
+    } else {
+        printf("Error ID incorrecto con _\n");
+        (*index)++;
+        return;
+    }
+
     while (*index < lon && (isalpha(text[*index]) || isdigit(text[*index]) || text[*index] == '_')) {
         compara[c++] = text[*index]; //Mientras lea A-Z 0..9 o _ incrementa
         (*index)++;
         } compara[c] = '\0'; //se agrega nulo para validar
 
+    if (bolID){
     for (int d = 0; d < indexClave; d++) { //Analiza en array de palabras si alguna coincide
         if (strcasecmp(compara, palarbasClave[d]) == 0) { //strcasecmp analiza palabras clave case sensitive
             printf("<%d>\n", palabrasTokens[d]); //Token palabra clave
@@ -101,29 +118,27 @@ void analizaIDC(char *text, int *index, int lon) {
     strcpy(IDs[idsIndex].content, compara);
     printf("<45,%d>\n", idsIndex + 1);  //incrementa en posición de IDs
     idsIndex++;
+    }
 }
 
-void comentarioLinea(char *text, int *index, int lon) {
-    int comentarioInicio = *index; //Posición
+void comentarioLinea(char* text, int* index, int lon) {
+    (int comentarioInicio = *index;)
 
-    while (*index < lon && text[*index] != '}') //Analiza que no sea fin de linea o }
-    { if (text[*index] == '{') { //No se permite {
-            printf("Error comentario incorrecto, no incluir -> {\n");
+    while (*index < lon && text[*index] != '\n') {
+        if (text[*index] == '}') {            
+            (*index)++;
+            if (*index - comentarioInicio != 1) {
+                printf("Comentario (se desecha)\n");
+            }
             return;
-        }
-        (*index)++;
-    } if (*index < lon && text[*index] == '}') { //Se analiza de nuevo que no sea fin de linea y exista }
-        (*index)++;
-        if (*index != comentarioInicio + 1) {
-            printf("Comentario (se desecha)\n");
-        }
-    } else {
-        printf("Error comentario no cerrada, incluir -> }\n"); //Error si no se encuentra } en la linea
+        } (*index)++;
+    } if (*index >= lon) {
+        printf("Error comentario incorrecto, incluir -> }\n");
     }
 }
 
 void comentarioMultilinea(char *text, int *index, int lon) {
-    int inicioComentario = *index; //Posición
+        int inicioComentario = *index; //Posición
 
     while (*index < lon - 1) { //quitamos 1 para dejar espacio para *)
         if (text[*index] == '*' && text[*index + 1] == ')') {
@@ -144,7 +159,6 @@ void comentarioMultilinea(char *text, int *index, int lon) {
     }
 }
 
-//Analiza case: '
 void analizaCadena(char *text, int *index, int lon) {
     char cadena[MAX_STRING_LENGTH]; //Almacena 
     int a = 0;
@@ -175,12 +189,8 @@ void analizaSimbolos(char *text, int *index, int lon) {
                 printf("<11>\n");
                 (*index)++;  // avanza dos
             } else {
-                printf("Error usando -> %c\n", c);
+                printf("<49>\n");
             } break;
-
-        case '\'':
-            analizaCadena(text, index, lon);
-            break;
 
         case '+':
             printf("<1>\n");
@@ -245,27 +255,23 @@ void analizaSimbolos(char *text, int *index, int lon) {
                 printf("<7>\n");
             } break;
 
-        default:
-            printf("Error usando -> %c\n", c);
+        case '.':
+            printf("<15>");
             break;
     } (*index)++;
 }
 
 int simbolosIgnorar(char c) { // Simbolos de -Σ
-    char ignorarSimbolos[] = {'$', '@', '#', '&', '.'}; 
-    int lon = sizeof(ignorarSimbolos) / sizeof(ignorarSimbolos[0]);
-    
-    for (int i = 0; i < lon; i++) {
-        if (c == ignorarSimbolos[i]) {
-            printf("Simbolo pertenece a -Σ\n");
-            return 1;
-        }
-    } return 0;
+    if (strchr(ignorarSimbolos, c)) {
+        printf("Simbolo pertenece a -Σ\n");
+        return 1;
+    }
+    return 0;
 }
 
-void scanner(char *text) {
-    int lon = strlen(text);
-    int i = 0;
+void scanner(char *text) { //Q0
+    int lon = strlen(text); //guarda longitud de linea
+    int i = 0; //puntero
 
     if (bolMultilinea) {
         comentarioMultilinea(text, &i, lon);
@@ -283,7 +289,7 @@ void scanner(char *text) {
         } else if (c == '(' && i+1 < lon && text[i+1] == '*') { //analiza comentario Multilinea (*
             i++; 
             comentarioMultilinea(text, &i, lon);
-        } else if (c == '"') { //analiza cadenas
+        } else if (c == '\'') { //analiza cadenas
             analizaCadena(text, &i, lon);
         } else if (strchr(specSymbols, c)) { // analiza Simbolos especiales
             analizaSimbolos(text, &i, lon);
@@ -294,7 +300,7 @@ void scanner(char *text) {
         } else { // Caracteres no declarados
             printf("Error usando -> %c\n", c);
             i++; 
-        }
+        } 
     }
 }
 
@@ -323,7 +329,7 @@ int main() {
     FILE *sourceCode;
     char text[MAX_LINE_LENGTH]; //Almacena linea
     
-    sourceCode = fopen("example3.txt", "r"); //archivo con source code, se puede editar a una ruta especifica
+    sourceCode = fopen("example2.txt", "r"); //archivo con source code
     
     if(sourceCode == NULL) {
         printf("Error al abrir el archivo de entrada.\n");

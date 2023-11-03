@@ -14,7 +14,7 @@ Tabla de Simbolos
 12	; 	 
 13	, 	 
 14	'	 N/A
-15	. 	 N/A
+15	. 	 
 16	( 	 
 17	) 	 
 18	[ 	 
@@ -48,3 +48,4 @@ Tabla de Simbolos
 46	Entero
 47	Real
 48	Cadena
+49 :

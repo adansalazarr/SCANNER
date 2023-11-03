@@ -1,9 +1,9 @@
-
+ (* Var declaration @ section*) @
 program Ejemplo3;
 
 (* Var declaration section*) 
 var
-    a, b : integer;
+    __1a, b : integer;
     x, y : real;
     n : array [1-10] of integer;
     s: string;
@@ -55,4 +55,4 @@ if (calc(x,y) = 5) then
     assign(x,y) 
     else
         writeLn(s); 
-end.
+         
