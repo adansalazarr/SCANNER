@@ -1,8 +1,8 @@
 program Ejemplo2;
 var
-{Comentario ejemplo}
+{Comentario ejemplo} var
 _a: integer;
- __b: real;
+ _b: real;
 (* This is a procedure block*)
 procedure assign (x: integer; y: real);
  begin

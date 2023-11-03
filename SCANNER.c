@@ -22,6 +22,7 @@ int numsIndex = 0;
 int cadenaIndex = 0;
 int bolMultilinea = 0; //boleano para multilinea
 int bolID = 0; //boleano para multilinea
+int errorFatal = 0; //fatal
 
 //Simbolos especiales
 const char specSymbols[] = "+-*/<>=;:,()[].";
@@ -96,9 +97,7 @@ void analizaIDC(char *text, int *index, int lon) {
         compara[c++] = text[*index];
         (*index)++;
     } else {
-        printf("Error ID incorrecto con _\n");
-        (*index)++;
-        return;
+        errorFatal = 1;
     }
 
     while (*index < lon && (isalpha(text[*index]) || isdigit(text[*index]) || text[*index] == '_')) {
@@ -126,10 +125,7 @@ void comentarioLinea(char* text, int* index, int lon) {
 
     while (*index < lon && text[*index] != '\n') {
         if (text[*index] == '{') {
-            printf("Error comentario incorrecto, no incluir -> {\n");
-            while (*index < lon && text[*index] != '\n') {
-                (*index)++; 
-            }
+            errorFatal = 1;
             return;
         } else if (text[*index] == '}') {
             printf("Comentario (se desecha)\n");
@@ -137,7 +133,7 @@ void comentarioLinea(char* text, int* index, int lon) {
             return;
         } (*index)++;
     }
-    printf("Error comentario no cerrado, falta -> }\n");
+    errorFatal =1;
 }
 
 void comentarioMultilinea(char *text, int *index, int lon) {
@@ -151,8 +147,7 @@ void comentarioMultilinea(char *text, int *index, int lon) {
             return;
         } 
         else if (text[*index] == '(' && text[*index + 1] == '*') {
-            printf("Error comentario incorrecto, no incluir -> (*\n");
-            return;
+            errorFatal = 1;
         }
         (*index)++;
     } 
@@ -266,8 +261,7 @@ void analizaSimbolos(char *text, int *index, int lon) {
 
 int simbolosIgnorar(char c) { // Simbolos de -Σ
     if (strchr(ignorarSimbolos, c)) {
-        printf("Simbolo pertenece a -Σ\n");
-        return 1;
+        errorFatal =1;
     }
     return 0;
 }
@@ -301,7 +295,7 @@ void scanner(char *text) { //Q0
         } else if (c == ' ' || c == '\n' || c == '\r') { 
             i++;
         } else { // Caracteres no declarados
-            printf("Error usando -> %c\n", c);
+            errorFatal =1;
             i++; 
         } 
     }
@@ -341,6 +335,10 @@ int main() {
 
     while(fgets(text, sizeof(text), sourceCode)) { //leemos linea por linea hasta el final del archivo
         scanner(text); //llamamos scanner()
+        if (errorFatal){
+            printf("------> Error fatal <------\n");
+            return 1;
+        }
     }
     
     fclose(sourceCode);
