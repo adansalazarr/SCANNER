@@ -1,6 +1,6 @@
 program Ejemplo2;
 var
-{Comentario {ejemplo}
+{Comentario ejemplo}
 _a: integer;
  __b: real;
 (* This is a procedure block*)

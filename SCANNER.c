@@ -20,7 +20,7 @@ Symbol Cadena[MAX_ENTRIES]; //Array para cadenas
 int idsIndex = 0;
 int numsIndex = 0;
 int cadenaIndex = 0;
-int bolMultilinea = 0;
+int bolMultilinea = 0; //boleano para multilinea
 int bolID = 0; //boleano para multilinea
 
 //Simbolos especiales
@@ -122,19 +122,22 @@ void analizaIDC(char *text, int *index, int lon) {
 }
 
 void comentarioLinea(char* text, int* index, int lon) {
-    (int comentarioInicio = *index;)
+    (*index)++;
 
     while (*index < lon && text[*index] != '\n') {
-        if (text[*index] == '}') {            
-            (*index)++;
-            if (*index - comentarioInicio != 1) {
-                printf("Comentario (se desecha)\n");
+        if (text[*index] == '{') {
+            printf("Error comentario incorrecto, no incluir -> {\n");
+            while (*index < lon && text[*index] != '\n') {
+                (*index)++; 
             }
             return;
+        } else if (text[*index] == '}') {
+            printf("Comentario (se desecha)\n");
+            (*index)++;
+            return;
         } (*index)++;
-    } if (*index >= lon) {
-        printf("Error comentario incorrecto, incluir -> }\n");
     }
+    printf("Error comentario no cerrado, falta -> }\n");
 }
 
 void comentarioMultilinea(char *text, int *index, int lon) {
