@@ -14,11 +14,13 @@ typedef struct { //contenido de cadena content
     char content[MAX_TOKEN_LENGTH];
     } Symbol;
 
-double Numbers[MAX_ENTRIES]; //Array para numeros
+int Int[MAX_ENTRIES]; // Array para enteros
+double Real[MAX_ENTRIES]; // Array para reales
 Symbol IDs[MAX_ENTRIES]; //Array para identificadores
 Symbol Cadena[MAX_ENTRIES]; //Array para cadenas
 int idsIndex = 0;
-int numsIndex = 0;
+int intIndex = 0;
+int realIndex = 0;
 int cadenaIndex = 0;
 int bolMultilinea = 0; //boleano para multilinea
 int bolID = 0; //boleano para multilinea
@@ -74,14 +76,12 @@ void analizaNumero(char *text, int *index, int lon) {
         } if (state == 3) {
             temp[acum] = '\0'; //se agrega nulo para validar
             if (strchr(temp, '.')) { //Se asigna a los reales
-                Numbers[numsIndex] = atof(temp);
-                printf("<47,%d>\n", numsIndex + 1);
+                Real[realIndex++] = atof(temp);
+                printf("<47,%d>\n", realIndex);
             } else { //se asigna a los enteros
-                Numbers[numsIndex] = atoi(temp);
-                printf("<46,%d>\n", numsIndex + 1);
-            }
-            numsIndex++;
-            return;
+                Int[intIndex++] = atoi(temp);
+                printf("<46,%d>\n", intIndex);
+            } return;
         }
     }
 }
@@ -137,24 +137,25 @@ void comentarioLinea(char* text, int* index, int lon) {
 }
 
 void comentarioMultilinea(char *text, int *index, int lon) {
-        int inicioComentario = *index; //Posición
-
-    while (*index < lon - 1) { //quitamos 1 para dejar espacio para *)
-        if (text[*index] == '*' && text[*index + 1] == ')') {
-            (*index) += 2; //avanzamos *)
-            bolMultilinea = 0; 
-            printf("Comentario (se desecha)\n");
-            return;
-        } 
-        else if (text[*index] == '(' && text[*index + 1] == '*') {
-            errorFatal = 1;
-        }
-        (*index)++;
-    } 
+        // int inicioComentario = *index; //Posición
 
     if (!bolMultilinea) { //Si esta bandera no es 0 seguimos analizando lineas
         bolMultilinea = 1;
+        (*index) +=2;
     }
+
+    while (*index < lon - 1 && bolMultilinea) { //quitamos 1 para dejar espacio para *)
+        if (text[*index] == '*' && text[*index + 1] == ')') {
+            bolMultilinea = 0; 
+            *index += 2; //avanzamos *)
+            printf("Comentario (se desecha)\n");
+        } else if (text[*index] == '(' && text[*index +1] == '*') {
+            errorFatal =1;
+            return;
+        } else {
+            (*index)++;
+        }
+    } 
 }
 
 void analizaCadena(char *text, int *index, int lon) {
@@ -173,7 +174,7 @@ void analizaCadena(char *text, int *index, int lon) {
         cadenaIndex++;
         (*index)++; // Salta el caracter de cierre
     } else {
-        printf("Error: Cadena no cerrada, incluir -> '\n");
+        errorFatal = 1;
     }
 }
 
@@ -302,16 +303,23 @@ void scanner(char *text) { //Q0
 }
 
 void tablaIDs() {
-    printf("\nTabla de identificadores\n");
+    printf("\n\nTabla de identificadores\n");
     for (int i = 0; i < idsIndex; i++) {
         printf("<%d,%s>\n", IDs[i].ent, IDs[i].content);
     }
 }
 
-void tablaINums() {
-    printf("\nTabla de números\n");
-    for (int i = 0; i < numsIndex; i++) {
-        printf("<%d,%f>\n", i + 1, Numbers[i]);
+void tablaEnteros(){
+    printf("\nTabla de Enteros:\n");
+    for (int i = 0; i < intIndex; i++){
+        printf("%d,%d\n", i + 1, Int[i]);
+    }
+}
+
+void tablaReal(){
+    printf("\nTabla de Reales:\n");
+    for (int i = 0; i < realIndex; i++){
+        printf("%d,%f\n", i + 1, Real[i]);
     }
 }
 
@@ -333,17 +341,24 @@ int main() {
         return 1;
     }
 
-    while(fgets(text, sizeof(text), sourceCode)) { //leemos linea por linea hasta el final del archivo
-        scanner(text); //llamamos scanner()
-        if (errorFatal){
+    while (fgets(text, MAX_LINE_LENGTH, sourceCode)) {
+        scanner(text);
+        if (errorFatal) {
             printf("------> Error fatal <------\n");
+            fclose(sourceCode);
             return 1;
         }
+    } if (bolMultilinea) {
+        errorFatal = 1;
+        printf("\n------> Error fatal <------\n");
+        fclose(sourceCode);
+        return 1;
     }
     
     fclose(sourceCode);
     tablaIDs();
-    tablaINums();
+    tablaReal();
+    tablaEnteros();
     tablaCadenas();
     return 0;
 }
